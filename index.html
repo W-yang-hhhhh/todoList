@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+    <div id="root">
+        <div class="todolist">
+            <span class="title">todoList</span>
+
+           <div class="todolist_head">
+            <input class="search" type="text" v-model="taskname" placeholder="请输入事件名称" @input = "searchResult(taskname)">
+            <button class="btn add" @click="addEvent ">添加</button>
+           </div>
+
+            <div class="todolist_contaner">
+                <span v-for="(item,index) in btnName" class="event_status" :class="index == status? 'active':''" @click="changeStatue(index)">{{item}}</span>
+
+                <div class="list_show">
+                    <div v-if="taskname && showList.length==0">
+                        暂无数据
+                    </div>
+                    <div v-for="(item,index) in (  taskname? showList :store)" v-if="status==0? true:status==item.status" class="task" :key=index>
+                        <div>
+                            <input :checked="item.selected" type="checkbox" class="checkbox" @click.stop="selected($event,index)">
+                            <input :data-id=index :class="{taskname:!item.editor}" type="text" :value="item.name" :readonly="!item.editor" ref="dom">
+                        </div>
+                        <div>
+                            <button class="btn delete" @click="deleted(item,index)">删除</button>
+                            <button  class="btn edit" @click="editor(item,index)">{{item.editor?'确定':'编辑'}}</button>
+                        </div>
+                    </div>
+                </div>
+
+               
+            </div>
+          
+            <div class="todolist_tail">
+                <button class="left btn" @click = "deleteSelected">删除已选</button>
+                <button class="right btn" @click = "doneSelected">事件完成</button>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+
+    <script   src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script   src="./index.js"></script>
+</body>
+</html>
